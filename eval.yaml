@@ -1,0 +1,54 @@
+dataset: 'mathador-2000.jsonl'
+shots: 2
+count: 1000
+batch_size: 16
+shuffle: True
+use_wandb: True
+temperature: 0.5
+max_tokens: # default; do not set to allow models to generate until it decides to stop on its own
+top_p: 1.0 # default
+seed: 0
+
+prompt: |+
+  Game description: In the Mathador game, players use the given base numbers and the operations of addition, subtraction, multiplication, and division to reach a specified target number.
+
+  Scoring:
+  - Each use of addition (+) is worth 1 point.
+  - Each use of multiplication (*) is worth 1 point.
+  - Each use of subtraction (-) is worth 2 points.
+  - Each use of division (/) is worth 3 points.
+  - 6 bonus points are awarded for using all four operations exactly once.
+
+  Rules:
+  - You should reach the target number.
+  - You should only use the base and intermediate numbers.
+  - You shouldn't use a base or intermediate number more than once in later steps.
+  - You should only produce nonnegative and integer intermediate results.
+  - Your solution should be 4 lines at most.
+
+  Only the solution you write at the end will be considered for scoring. 
+  Find the highest scoring solution. If you are not able to find it, find a simple solution to earn at least some points.
+
+  {shots}
+
+  Target number: {target}
+  Base numbers: {base_numbers}
+
+########### end of prompt ###########
+
+# api: openai
+# api_key: ${oc.env:OPENAI_API_KEY}
+# models:
+# - 'gpt-3.5-turbo'
+# - 'gpt-4'
+
+api: together
+api_key: ${oc.env:TOGETHER_API_KEY}
+models:
+- meta-llama/Llama-3-8b-chat-hf
+#- meta-llama/Llama-3-70b-chat-hf
+
+# api: claude
+# api_key: ${oc.env:CLAUDE_API_KEY}
+# models:
+# - claude-3-opus-20240229
